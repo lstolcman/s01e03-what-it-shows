@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		<!--e2jw2j--><!----><title>#4471 holds two problems, not one · support kb</title>
+		<style>
+:root{--bg: #fbfaf7;--fg: #1d1d1b;--muted: #6b6a66;--line: #e3e0d8;--accent: #2f6f5e;--warn: #b4501f;--warn-bg: #fbeee6;--note-bg: #eef5f2;--mono: ui-monospace, "Cascadia Code", Menlo, monospace}@media(prefers-color-scheme:dark){:root{--bg: #171716;--fg: #ecebe6;--muted: #9c9a93;--line: #34332f;--accent: #6fbfa6;--warn: #f0905d;--warn-bg: #3a2418;--note-bg: #1d2c27}}body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 system-ui,sans-serif}.kb table{border-collapse:collapse;width:100%;margin:1rem 0;font-size:.92rem}.kb th,.kb td{border-bottom:1px solid var(--line);padding:.35rem .5rem;text-align:left}.kb code{font-family:var(--mono);font-size:.88em}.kb a{color:var(--accent)}.kb.svelte-e2jw2j{max-width:760px;margin:0 auto;padding:2rem 16px 4rem}.crumb.svelte-e2jw2j{font:.8rem var(--mono);text-decoration:none;color:var(--muted)}h1.svelte-e2jw2j{margin:.25rem 0 .5rem;line-height:1.2}.meta.svelte-e2jw2j{display:flex;flex-wrap:wrap;gap:.5rem 1rem;color:var(--muted);font-size:.85rem;margin:0}.status.svelte-e2jw2j{border:1px solid var(--line);border-radius:99px;padding:0 .6rem}.stale.svelte-e2jw2j{color:var(--warn);font-weight:600}.banner.svelte-e2jw2j{background:var(--warn-bg);color:var(--warn);padding:.6rem 1rem;border-radius:6px}footer.svelte-e2jw2j{margin-top:3rem;color:var(--muted);font-size:.8rem;border-top:1px solid var(--line);padding-top:1rem}
+
+</style>
+		<style>
+.sum.svelte-965ypm{font-size:1.05rem}.note.svelte-965ypm{color:var(--muted);font-size:.85rem}.stamp.svelte-1280m42{margin:2rem 0 0;font:.85rem var(--mono);color:var(--muted)}.stamp.svelte-1280m42 b:where(.svelte-1280m42){color:var(--accent);letter-spacing:.04em}.missing.svelte-1280m42{color:var(--warn)}
+
+</style>
+  </head>
+  <body data-sveltekit-preload-data="hover">
+    <div style="display: contents"><!--[--><!--[0--><!--[--><!--[--><div class="kb svelte-e2jw2j"><header><a class="crumb svelte-e2jw2j" href="/kb">support desk · kb</a> <h1 class="svelte-e2jw2j">#4471 holds two problems, not one</h1> <p class="meta svelte-e2jw2j"><span>owner <b>lstolcman</b></span> <span class="status proposed svelte-e2jw2j">proposed</span> <span class="svelte-e2jw2j">reviewed 2026-11-11 · 0 days ago</span></p></header> <!--[-1--><!--]--> <main><p>The incident page for #4471 says it is one issue with one fix queued. The 412 reports merged
+into it do not agree. Built at render time from the export and the desk’s own grouping, they
+fall into <strong>two causes</strong>, and only one of them is the parser.</p> <h2>The split</h2> <p class="sum svelte-965ypm"><strong>412</strong> reports merged into #4471, in <strong>2</strong> causes.</p> <table><thead><tr><th>cause</th><th>reports</th><th>share</th><th>tenants</th><th>channels</th><th>seen</th><th>ticket</th></tr></thead><tbody><!--[--><tr><td><code>parser</code></td><td>379</td><td>92%</td><td>11</td><td>app 204, email 150, form 25</td><td>2026-04-01 → 2026-10-04</td><td><!--[0--><a href="https://github.com/lstolcman/s01e03-what-it-shows/issues/1">#1</a><!--]--></td></tr><tr><td><code>hint</code></td><td>33</td><td>8%</td><td>3</td><td>form 33</td><td>2026-04-17 → 2026-09-22</td><td><!--[0--><a href="https://github.com/lstolcman/s01e03-what-it-shows/issues/2">#2</a><!--]--></td></tr><!--]--></tbody></table> <!--[--><!--[0--><p class="note svelte-965ypm">5 of these 379 read as a one-day move. They stay counted under <code>parser</code>, filed by tenant, as the desk does.</p><!--]--><!--[-1--><!--]--><!--]--><!----> <h2>Why the desk saw one problem</h2> <p>Triage merges on the subject line alone (<a href="/kb/decisions/0001-dedupe-by-subject">decision 0001</a>).
+People describe a wrong day in the same few words whatever the cause, so the reports merged into
+one ticket. The subject says “wrong day”; the tenant and the way in say which bug.</p> <h2>What each ticket asks for</h2> <ul><li><code>parser</code> (379 reports): read dates in the tenant’s order. Every tenant on file writes
+day-first, and the shared parser reads month-first.</li> <li><code>hint</code> (33 reports): booking-v3 prints <code>MM/DD/YYYY</code> to day-first tenants, so their people type
+the month in the day field.</li></ul> <p>Both tickets are filed in the desk’s tracker, one per cause, each with its count.</p> <h2>What is not a third problem</h2> <p>Five reports describe a booking that moved by one day, not a month flip. <code>desk-notes.json</code> lists
+them, the component footnotes them, and they stay counted under <code>parser</code> where the tenant files
+them. They are the same code path, read differently.</p> <h2>Check it</h2> <p>node tools/count-reports.mjs</p> <p>prints the same grouping from <code>src/lib/data/reports-4471.json</code>.</p> <!--[0--><p class="stamp svelte-1280m42">desk ref <b class="svelte-1280m42">DR-MMCS-8GHP</b></p><!--]--><!----><!----></main> <footer class="svelte-e2jw2j">Pages are written by people. Tables and charts are built from data at render time.</footer></div><!--]--><!----><!--]--><!--]--> <!--[-1--><!--]--><!--]-->
+			
+			
+		</div>
+  </body>
+</html>

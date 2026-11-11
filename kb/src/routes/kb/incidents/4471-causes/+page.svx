@@ -1,0 +1,56 @@
+---
+layout: runbook
+title: '#4471 holds two problems, not one'
+owner: lstolcman
+status: proposed
+reviewed: 2026-11-11
+signature: v1.eyJzdG9yeSI6Im9mZiIsInN1YiI6IjM1OTYiLCJhdWQiOiJjaGFsbGVuZ2U6d2hhdC1pdC1zaG93cyIsImlhdCI6MTc5NDM3MzQ2NCwiZXhwIjoxNzk0NDU5ODY0fQ.L3TSuhrDUkC8Y4CYTZsfUi8mBPa1LXHbW-nBGKIqshk
+---
+
+<script>
+  import CauseSplit from '#lib/kb/CauseSplit.svelte';
+  import RenderStamp from '#lib/kb/RenderStamp.svelte';
+</script>
+
+The incident page for #4471 says it is one issue with one fix queued. The 412 reports merged
+into it do not agree. Built at render time from the export and the desk's own grouping, they
+fall into **two causes**, and only one of them is the parser.
+
+## The split
+
+<CauseSplit
+  ticket={4471}
+  tickets={{
+    parser: 'https://github.com/lstolcman/s01e03-what-it-shows/issues/1',
+    hint: 'https://github.com/lstolcman/s01e03-what-it-shows/issues/2'
+  }}
+/>
+
+## Why the desk saw one problem
+
+Triage merges on the subject line alone ([decision 0001](/kb/decisions/0001-dedupe-by-subject)).
+People describe a wrong day in the same few words whatever the cause, so the reports merged into
+one ticket. The subject says "wrong day"; the tenant and the way in say which bug.
+
+## What each ticket asks for
+
+- `parser` (379 reports): read dates in the tenant's order. Every tenant on file writes
+  day-first, and the shared parser reads month-first.
+- `hint` (33 reports): booking-v3 prints `MM/DD/YYYY` to day-first tenants, so their people type
+  the month in the day field.
+
+Both tickets are filed in the desk's tracker, one per cause, each with its count.
+
+## What is not a third problem
+
+Five reports describe a booking that moved by one day, not a month flip. `desk-notes.json` lists
+them, the component footnotes them, and they stay counted under `parser` where the tenant files
+them. They are the same code path, read differently.
+
+## Check it
+
+    node tools/count-reports.mjs
+
+prints the same grouping from `src/lib/data/reports-4471.json`.
+
+<RenderStamp {signature} />
