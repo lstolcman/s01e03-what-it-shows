@@ -47,6 +47,12 @@ Five reports describe a booking that moved by one day, not a month flip. `desk-n
 them, the component footnotes them, and they stay counted under `parser` where the tenant files
 them. They are the same code path, read differently.
 
+## How the desk closed them
+
+The desk closed #4471 on 5 October. Its engineering update marks `parser` **FIXED**
+(`fix(dates): parse dd/mm for eu locales`) and `hint` **WON'T FIX**, because booking-v3 is
+retired. Both tickets in the tracker are closed the same way: #1 completed, #2 not planned.
+
 ## Check it
 
     node tools/count-reports.mjs
